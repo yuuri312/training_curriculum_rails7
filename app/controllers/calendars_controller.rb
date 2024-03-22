@@ -8,7 +8,6 @@ class CalendarsController < ApplicationController
 
   # 予定の保存
   def create
-    binding.pry
     @Plan = Plan.new(plan_params)
     
   # 予定の保存
@@ -20,8 +19,8 @@ class CalendarsController < ApplicationController
     else
       redirect_to root_path, alert: '予定の保存に失敗しました。'
     end
-  end
-
+  end  
+  
 
   private
 
@@ -36,18 +35,11 @@ class CalendarsController < ApplicationController
     @todays_date = Date.today
     # 例)　今日が2月1日の場合・・・ Date.today.day => 1日
 
-    @week_days = []
-
-    plans = Plan.where(date: @todays_date..@todays_date + 6)
-
-    7.times do |x|
-      today_plans = []
-      plans.each do |plan|
-        today_plans.push(plan.plan) if plan.date == @todays_date + x
-      end
-      days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans}
+    @week_days= []
+   
+    (0..6).each do |x|
+      today_plans = Plan.where(date: @todays_date+x)
+      days={month: (@todays_date + x).month,date: (@todays_date+x).day,wday: wdays[(@todays_date+x).wday],plans: today_plans}
       @week_days.push(days)
     end
-
   end
-end
