@@ -20,8 +20,8 @@ class CalendarsController < ApplicationController
       redirect_to root_path, alert: '予定の保存に失敗しました。'
     end
   end  
+end
   
-
   private
 
   def plan_params
@@ -39,7 +39,8 @@ class CalendarsController < ApplicationController
    
     (0..6).each do |x|
       today_plans = Plan.where(date: @todays_date+x)
-      days={month: (@todays_date + x).month,date: (@todays_date+x).day,wday: wdays[(@todays_date+x).wday],plans: today_plans}
+      days={month: (@todays_date + x).month,date: (@todays_date+x).strftime("%-d"),wday: wdays[(@todays_date+x).wday],plans: today_plans}
       @week_days.push(days)
-    end
-  end
+     end 
+end 
+   end
