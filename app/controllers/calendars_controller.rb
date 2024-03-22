@@ -8,14 +8,25 @@ class CalendarsController < ApplicationController
 
   # 予定の保存
   def create
-    Plan.create(plan_params)
-    redirect_to action: :index
+    binding.pry
+    @Plan = Plan.new(plan_params)
+    
+  # 予定の保存
+  def create
+    @plan = Plan.new(plan_params)
+    
+    if @plan.save
+      redirect_to root_path, notice: '予定を保存しました。'
+    else
+      redirect_to root_path, alert: '予定の保存に失敗しました。'
+    end
   end
+
 
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:date, :plan)
   end
 
   def getWeek
